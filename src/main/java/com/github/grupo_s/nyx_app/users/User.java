@@ -2,6 +2,7 @@ package com.github.grupo_s.nyx_app.users;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class User {
     private String email;
 
     @NotNull
+    @Pattern(regexp = "^.{8,}$", message = "The password needs to have at least 8 characters")
     private String password;
 
     @NotNull
