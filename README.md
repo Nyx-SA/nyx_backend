@@ -1,6 +1,6 @@
 To run the project, create under the nyx-app folder a .env file with the next enviroment variables:
 
-DB_URL=jdbc:postgresql://localhost:"PORT"/"DATABASE_NAME"
+DB_URL=jdbc:postgresql://localhost:"PORT"/"DATABASE_NAME" \n
 DB_USER="YOUR_POSTGRESQL_USER"
 DB_PASS="YOUR_POSTGRESQL_PASSWORD"
 
