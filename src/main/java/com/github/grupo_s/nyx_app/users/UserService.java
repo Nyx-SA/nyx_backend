@@ -2,6 +2,7 @@ package com.github.grupo_s.nyx_app.users;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll(){
         return userRepository.findAll()
@@ -47,6 +51,11 @@ public class UserService {
             if (verifyEmail(normalizedEmail)) {
                 user.setUsername(normalizedUsername);
                 user.setEmail(normalizedEmail);
+
+
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+
                 User savedUser = userRepository.save(user);
 
                 return savedUser;
@@ -75,6 +84,7 @@ public class UserService {
         updatedUser.setUsername(normalizedUsername);
 
         if (verifyUsername(updatedUser.getUsername(), updatedUser.getId()) && verifyEmail(updatedUser.getEmail(), updatedUser.getId())) {
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             return userRepository.save(updatedUser);
         }
         throw new EntityNotFoundException("Username or mail already exists");
@@ -131,6 +141,10 @@ public class UserService {
             }
         }
         return true;
+    }
+
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 

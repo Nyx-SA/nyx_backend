@@ -26,7 +26,8 @@ public class User {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^.{8,}$", message = "The password needs to have at least 8 characters")
+    @Pattern(regexp = "^.{8,}$",
+            message = "The password needs to have at least 8 characters")
     private String password;
 
     @NotNull
