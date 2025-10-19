@@ -1,22 +1,23 @@
 package com.github.grupo_s.nyx_app.users;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAll(){
         return userRepository.findAll()
@@ -54,6 +55,7 @@ public class UserService {
 
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
+                user.setCreatedAt(LocalDateTime.now());
 
 
                 User savedUser = userRepository.save(user);

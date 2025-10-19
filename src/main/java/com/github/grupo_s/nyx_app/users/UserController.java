@@ -13,6 +13,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/demo")
+    public String welcome(){
+        return "welcome from secure endpoint";
+    }
+
     @GetMapping("/users")
     public ResponseEntity<?> getUsers() {
         try {
