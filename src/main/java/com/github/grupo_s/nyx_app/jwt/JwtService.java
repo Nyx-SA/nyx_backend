@@ -70,7 +70,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Date getExpiration(String token) {
+    public Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
     }
 
