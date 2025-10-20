@@ -30,19 +30,13 @@ public class AuthService {
     public void forgotPassword(ForgotPassRequest request) {
         User user = userService.getUserByEmail(request.getEmail());
 
-        System.out.println("🔍 Email buscado: " + request.getEmail());
-        System.out.println("🔍 Usuario encontrado: " + (user != null));
-
         if (user == null) {
-            System.out.println("❌ Email NO existe en la base de datos");
             //Por seguridad no devolvemos si el usuario existe o no, simplemente devolves la misma respuesta que si existiera
             return;
         }
 
-        System.out.println("✅ Usuario encontrado: " + user.getUsername());
-
         String token = String.format("%06d", new Random().nextInt(999999));
-        System.out.println("🔑 Código generado: " + token);
+        System.out.println("Token generado: " + token);
 
         PassResetToken resetToken = PassResetToken.builder()
                 .token(token)
@@ -52,10 +46,7 @@ public class AuthService {
                 .build();
 
         tokenRepository.save(resetToken);
-
-        System.out.println("📧 Intentando enviar email...");
         emailService.sendPasswordResetEmail(user.getEmail(),token);
-        System.out.println("✅ Email enviado exitosamente");
     }
 
     public void resetPassword(ResetPassRequest request){
