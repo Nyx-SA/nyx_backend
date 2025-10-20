@@ -1,4 +1,4 @@
-package com.github.grupo_s.nyx_app.auth.passwordReset;
+package com.github.grupo_s.nyx_app.passwordReset;
 
 import com.github.grupo_s.nyx_app.users.User;
 import jakarta.persistence.*;
