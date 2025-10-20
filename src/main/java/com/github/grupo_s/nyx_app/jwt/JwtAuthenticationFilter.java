@@ -30,7 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        String requestURI = request.getRequestURI();
+
         final String token = getTokenFromRequest(request);
+
         final String username;
 
         if (token == null) {
@@ -64,7 +67,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            System.out.println("❌ Error en JWT filter: " + e.getMessage());
             e.printStackTrace();
         }
         filterChain.doFilter(request, response);

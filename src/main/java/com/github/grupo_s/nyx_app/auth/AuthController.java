@@ -2,6 +2,8 @@ package com.github.grupo_s.nyx_app.auth;
 
 
 import com.github.grupo_s.nyx_app.logout.LogoutService;
+import com.github.grupo_s.nyx_app.passwordReset.ForgotPassRequest;
+import com.github.grupo_s.nyx_app.passwordReset.ResetPassRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,4 +38,19 @@ public class AuthController {
         return ResponseEntity.badRequest().body("Invalid token");
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPassRequest request) {
+        authService.forgotPassword(request);
+        return ResponseEntity.ok("If the email exists, a reset code has been sent");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPassRequest request) {
+        try {
+            authService.resetPassword(request);
+            return ResponseEntity.ok("Password reset successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
