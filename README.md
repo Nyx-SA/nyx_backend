@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Java 17 or higher
+- Java 25
 - PostgreSQL
 - Maven
 
