@@ -26,8 +26,9 @@ public class UserService {
     }
 
     public User getUserById(long id){
-        User user = userRepository.findById(id);
-        return user;
+        Optional<User> user = userRepository.findById(id);
+        return user.orElseThrow(() ->
+                new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     public User getUserByUsername(String username){
@@ -70,10 +71,10 @@ public class UserService {
     public User updateUser(long id, User updatedUser) {
 
         //1. Buscamos el usuario
-        User user = userRepository.findById(id);
-        //2. Chequeamos que exista
-        if (user == null) throw new EntityNotFoundException("User not found");
-        //3. Actualizamos el id de los nuevos datos
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+
+        //2. Actualizamos el id de los nuevos datos
         updatedUser.setId(user.getId());
         updatedUser.setCreatedAt(user.getCreatedAt());
 
