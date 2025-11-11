@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,7 @@ public class EstablecimientoController {
 
     // Crear un nuevo establecimiento, asociado al usuario autenticado, sacamos el usuario directamente del token
     @PostMapping("/establecimiento")
+    @PreAuthorize("hasAuthority('DUENO')") //Solo un usuario con el rol de dueno va a poder crear los establecimientos
     public ResponseEntity<?> createEstablecimiento(@Valid @RequestBody Establecimiento establecimiento, @AuthenticationPrincipal User user) {
         try {
             Establecimiento savedEstablecimiento = establecimientoService.saveEstablecimiento(establecimiento, user); //Le pasamos el usuario autenticado al service
@@ -72,6 +74,7 @@ public class EstablecimientoController {
     }
 
     @DeleteMapping("/establecimiento/{id}")
+    @PreAuthorize("hasAuthority('DUENO')") //Solo un usuario con el rol de dueno va a poder eliminar los establecimientos
     public ResponseEntity<?> deleteEstablecimiento(@PathVariable long id) {
         try {
             if (establecimientoService.getById(id) == null) {
